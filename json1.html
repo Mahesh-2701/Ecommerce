@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>Create Object from JSON string </h2>
+    <select id="demo">
+    </select>
+    <script>
+        let text='{"country":[{"countr":"india"},{"countr":"Usa"},{"countr":"Uk"}]}';
+        const obj=JSON.parse(text);
+        document.getElementById("demo").innerHTML="<option>"+obj.country[0].countr+ "</option>"+"<option>"+obj.country[1].countr+ "</option>"+"<option>"+obj.country[2].countr+ "</option>";
+    </script>
+</body>
+</html>

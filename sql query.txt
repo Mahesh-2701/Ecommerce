@@ -1,0 +1,34 @@
+SELECT regno,name from stud_mark where (tam+eng+math+sci+soc)>=300;
+
+SELECT regno,name from stud_mark WHERE tam=100 or eng=100 or math=100 or sci=100 or soc=100;
+
+SELECT name,((tam+eng+math+sci+soc)/5) as avg from stud_mark where ((tam+eng+math+sci+soc)/5) >75;
+
+select name from stud_mark WHERE tam<50 and soc>60;
+
+SELECT name from stud_mark WHERE tam=eng=math=sci=soc;
+
+SELECT * FROM `stud_mark` WHERE regno>=15 and regno<=20;
+
+SELECT * FROM `stud_mark` WHERE tam<35 and eng<35 AND math<35 AND sci<35 and soc<35;
+
+SELECT * FROM `stud_mark` WHERE tam>35 and eng>35 AND math>35 AND sci>35 and soc>35;
+
+SELECT * FROM `stud_mark` WHERE name="a%";
+
+SELECT * FROM `stud_mark` WHERE name LIKE "%e%";
+
+SELECT name,(tam+eng+math+sci+soc) as tot FROM `stud_mark` WHERE (tam+eng+math+sci+soc)=250;
+
+SELECT * FROM `stud_mark` WHERE tam=0 or eng=0 or math=0 or sci=0 or soc=0;
+
+SELECT * FROM `stud_mark` WHERE tam>90 or eng>90 or math>90 or sci>90 or soc>90;
+
+SELECT * FROM `stud_mark` WHERE (tam>=35 and eng<35 and math<35 and sci<35 and soc<35) or (tam<35 and eng>=35 and math<35 and sci<35 and soc<35) or (tam<35 and eng<35 and math>=35 and sci<35 and soc<35) or (tam<35 and eng<35 and math<35 and sci>=35 and soc<35) or (tam<35 and eng<35 and math<35 and sci<35 and soc>=35) or (tam<35 and eng<35 and math<35 and sci<35 and soc>35);
+
+
+
+SELECT * FROM `stud_mark` WHERE (tam<35 and eng<35) or (tam<35 and math<35) or (tam<35 and sci<35) or (tam<35 and soc<35) or (eng<35 and math<35) or (eng<35 and sci<35) or (eng<35 and soc<35) or (math<35 and sci<35) or (math<35 and soc<35) or (sci<35 and soc<35);
+
+
+SELECT * FROM `stud_mark` WHERE tam=eng;

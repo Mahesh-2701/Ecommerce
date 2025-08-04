@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        function count(){
+        var count=document.getElementById("coun").value;
+        var ind=['Tamilnadu','Kerala'];
+        var usa=['London','Paris'];
+        var uk=['perth','Melbourne','Sydney'];
+
+
+        function sta(con){
+                 let state;
+
+            for(let i=0;i<con.length;i++)
+            {
+                state=state+"<option>"+con[i]+"</option>";
+            }
+         document.getElementById("state").innerHTML=state;
+
+        }
+        if(count == "India")
+        {
+          sta(ind);
+        }
+        if(count == "USA")
+        {
+         sta(usa);
+        }
+        if(count == "UK")
+        {
+         sta(uk);
+        }
+        }
+    </script>
+</head>
+<body>
+    <label for="Con">Country</label>
+    <select id="coun" name="Con" onchange="count()">
+        <option value="">Select Country</option>
+        <option >India</option>
+        <option >USA</option>
+        <option>UK</option>
+    </select>
+    <label for="sta">State</label>
+    <select name="sta" id="state">
+
+    </select>
+</body>
+</html>

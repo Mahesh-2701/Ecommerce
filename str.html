@@ -1,0 +1,61 @@
+<script>
+// Define a sample string
+let str = " Hello, JavaScript World! ";
+console.log("Original String:", str);
+
+// String Length
+console.log("Length:", str.length);
+
+// Trim
+console.log("Trimmed:", str.trim());
+
+// Convert to UpperCase and LowerCase
+console.log("UpperCase:", str.toUpperCase());
+console.log("LowerCase:", str.toLowerCase());
+
+// Slice and Substring
+console.log("Slice(7,17):", str.slice(7, 17));
+console.log("Substring(7,17):", str.substring(7, 17));
+console.log("Substr(7,10):", str.substr(7, 10));
+
+// Replace and ReplaceAll
+console.log("Replace JavaScript with JS:", str.replace("JavaScript", "JS"));
+console.log("ReplaceAll spaces with dashes:", str.replaceAll(" ", "-"));
+
+// Split
+console.log("Split by spaces:", str.split(" "));
+
+// Includes
+console.log("Includes 'JavaScript':", str.includes("JavaScript"));
+
+// StartsWith and EndsWith
+console.log("Starts with ' Hello':", str.startsWith(" Hello"));
+console.log("Ends with 'World!':", str.endsWith("World!"));
+
+// IndexOf and LastIndexOf
+console.log("Index of 'JavaScript':", str.indexOf("JavaScript"));
+console.log("Last index of 'o':", str.lastIndexOf("o"));
+
+// CharAt and CharCodeAt
+console.log("Character at index 7:", str.charAt(7));
+console.log("Character code at index 7:", str.charCodeAt(7));
+
+// Concat
+console.log("Concat with ' Enjoy Coding!':", str.concat(" Enjoy Coding!"));
+
+// Repeat
+console.log("Repeat 3 times:", str.repeat(3));
+
+// PadStart and PadEnd
+console.log("PadStart (30, '*'):", str.padStart(30, '*'));
+console.log("PadEnd (30, '*'):", str.padEnd(30, '*'));
+
+// Match (Regular Expression)
+console.log("Match 'Java':", str.match(/Java/));
+// Search (Regular Expression)
+console.log("Search 'World':", str.search("World"));
+
+// TrimStart and TrimEnd
+console.log("TrimStart:", str.trimStart());
+console.log("TrimEnd:", str.trimEnd());
+</script>

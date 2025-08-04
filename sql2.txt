@@ -1,0 +1,21 @@
+create table x(regno int,name varchar(100))
+insert into x(regno,name)values(1,'sssk');
+insert into x(regno,name)values(1,'sssk');
+
+
+create table y(regno int primary key,name varchar(100));
+insert into y(regno,name)values(1,'sssk');
+insert into y(regno,name)values(1,'sssk');
+
+
+create table z(regno serial,name varchar(100));
+insert into z(name)values('sssk'),('ooo'),('sdsd'),('ghgh');
+
+alter table students add column qua varchar(100);
+update students set qua='BSC';
+update students set qua='BE' where regno=1;
+alter table students drop column qua;
+
+delete from x;
+delete from z where regno=1;
+drop table z;
