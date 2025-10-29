@@ -35,18 +35,18 @@ export default function Navbar() {
            <li class="nav-item">
           <Link to="/cart" className='text-decoration-none'>Cart</Link>
         </li>
-          <li class="nav-item">
+          <li >
           <Link to="/logout" className='btn btn-danger rounded-3'>Logout</Link>
         </li>
           </>
            
         ):(
           <>
-           <li class="nav-item">
-          <Link to="/login" className='btn btn-primary rounded-3'>Login</Link>
+           <li >
+          <Link to="/login" className='btn btn-primary rounded-3 nav-btns'>Login</Link>
         </li>
-        <li class="nav-item">
-          <Link to="/signin" className='btn btn-outline-primary rounded-3'>Signin</Link>
+        <li >
+          <Link to="/signin" className='btn btn-outline-primary nav-btns rounded-3'>Signin</Link>
         </li>
           </>
         )}
@@ -58,20 +58,20 @@ export default function Navbar() {
 </nav>
 <style>
 {`
-
+/* Base navbar */
 .navbar {
   backdrop-filter: blur(15px);
-  background: rgba(255, 255, 255, 0.6) !important;
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.65) !important;
+  border: 1px solid rgba(255, 255, 255, 0.25);
   transition: all 0.4s ease;
   padding: 0.8rem 1.5rem;
 }
-
 .navbar:hover {
   background: rgba(255, 255, 255, 0.9) !important;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
 }
 
+/* Brand */
 .navbar-brand {
   font-weight: 700;
   font-size: 1.4rem;
@@ -80,52 +80,194 @@ export default function Navbar() {
   transition: all 0.3s ease;
 }
 .navbar-brand:hover {
-  transform: scale(1.05);
   color: #0056d2 !important;
+  transform: translateY(-1px);
 }
 
+/* Nav links */
 .nav-item {
-  position: relative;
   list-style: none;
+  position: relative;
 }
-
 .nav-item a {
-  color: #333 !important;
+  color: #222 !important;
   font-weight: 500;
+  position: relative;
   transition: all 0.3s ease;
   padding: 6px 10px;
-  border-radius: 6px;
+  border-radius: 8px;
+}
+
+.nav-btns:hover{
+  color: #fff6f6ff !important;
+}
+
+/* Line animation — left to right */
+.nav-item a::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 0%;
+  height: 2px;
+  background: linear-gradient(90deg, #0d6efd, #6610f2);
+  transition: width 0.3s ease;
+  border-radius: 2px;
+}
+
+/* Disable line for buttons (login/logout/signin) */
+.nav-item a.btn::after {
+  display: none;
+}
+
+/* Hover effect for regular nav links */
+.nav-item a:hover::after {
+  width: 100%;
 }
 
 .nav-item a:hover {
-  background-color: #0d6efd;
-  color: #fff !important;
-  transform: translateY(-2px);
-  box-shadow: 0 3px 8px rgba(13, 110, 253, 0.3);
+  color: #0d6efd !important;
+  transform: translateY(-1px);
 }
 
+/* Base navbar */
+.navbar {
+  backdrop-filter: blur(15px);
+  background: rgba(255, 255, 255, 0.65) !important;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  transition: all 0.4s ease;
+  padding: 0.8rem 1.5rem;
+}
+.navbar:hover {
+  background: rgba(255, 255, 255, 0.9) !important;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+}
 
-.btn {
+/* Brand */
+.navbar-brand {
+  font-weight: 700;
+  font-size: 1.4rem;
+  color: #0d6efd !important;
+  letter-spacing: 1px;
   transition: all 0.3s ease;
 }
-.btn:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 4px 15px rgba(13, 110, 253, 0.4);
+.navbar-brand:hover {
+  color: #0056d2 !important;
+  transform: translateY(-1px);
 }
 
+/* Nav links */
+.nav-item {
+  list-style: none;
+  position: relative;
+}
+.nav-item a {
+  color: #222 !important;
+  font-weight: 500;
+  position: relative;
+  transition: all 0.3s ease;
+  padding: 6px 10px;
+  border-radius: 8px;
+}
 
+/* Line animation — left to right */
+.nav-item a::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 0%;
+  height: 2px;
+  background: linear-gradient(90deg, #0d6efd, #6610f2);
+  transition: width 0.3s ease;
+  border-radius: 2px;
+}
+
+/* Disable line for buttons (login/logout/signin) */
+.nav-item a.btn::after {
+  display: none;
+}
+
+/* Hover effect for regular nav links */
+.nav-item a:hover::after {
+  width: 100%;
+}
+
+.nav-item a:hover {
+  color: #0d6efd !important;
+  transform: translateY(-1px);
+}
+
+/* Buttons (no custom hover styling — Bootstrap default only) */
+.btn {
+  font-weight: 500;
+  transition: none;
+}
+.btn:hover {
+  transform: none;
+  color: inherit !important;
+  box-shadow: none !important;
+}
+
+/* Responsive */
 @media (max-width: 991px) {
   .navbar {
     background: rgba(255, 255, 255, 0.95) !important;
+    padding: 1rem;
   }
-  .nav-item a {
-    display: block;
-    padding: 10px;
+  .navbar-nav {
+    text-align: center;
   }
 }
+
+@media (max-width: 768px) {
+  .navbar-brand {
+    font-size: 1.2rem;
+  }
+  .nav-item a {
+    padding: 10px;
+    font-size: 1rem;
+  }
+}
+
+/* Scroll shadow */
+.navbar.fixed-top.scrolled {
+  background: rgba(255, 255, 255, 0.98) !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  transition: all 0.4s ease;
+}
+
+
+/* Responsive */
+@media (max-width: 991px) {
+  .navbar {
+    background: rgba(255, 255, 255, 0.95) !important;
+    padding: 1rem;
+  }
+  .navbar-nav {
+    text-align: center;
+  }
+}
+
+@media (max-width: 768px) {
+  .navbar-brand {
+    font-size: 1.2rem;
+  }
+  .nav-item a {
+    padding: 10px;
+    font-size: 1rem;
+  }
+}
+
+/* Scroll shadow */
+.navbar.fixed-top.scrolled {
+  background: rgba(255, 255, 255, 0.98) !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  transition: all 0.4s ease;
+}
+
 `}
 </style>
-
     </div>
   )
 }

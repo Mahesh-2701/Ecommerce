@@ -121,7 +121,7 @@ const Productview = () => {
   }, []);
 
   if (loading) return <div className="container mt-5">Loading...</div>;
-  if (!employee) return <div className="container mt-5">Employee not found</div>;
+  if (!employee) return <div className="container mt-5">Products not found</div>;
 
   return (
     <div className="container mt-5">

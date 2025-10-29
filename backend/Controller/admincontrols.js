@@ -168,7 +168,7 @@ exports.updateproduct = async function (req, res) {
 exports.getorders = async function (req, res) {
   try {
 
-    let result = await orderModel.find().populate("userid").populate("items.productid")
+    let result = await orderModel.find({ paymentStatus : "success"}).populate("userid").populate("items.productid")
  
     if (result ) {
       res.status(200).json({

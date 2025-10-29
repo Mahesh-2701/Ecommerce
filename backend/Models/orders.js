@@ -15,7 +15,8 @@ const orderSchema = new mongoose.Schema({
     address : { type:String , required: true},
     paymentmethod : {type:String , enum : ["Card","CashOnDelivery","UPI"] , required:true},
     orderedAt : { type : Date , default : Date.now()},
-    orderStatus : { type:String , enum : ["Packed","Shipped","Out for Delivery","Delivered"] , default:"Packed"}
+    orderStatus : { type:String , enum : ["Packed","Shipped","Out for Delivery","Delivered"] , default:"Packed"},
+    paymentStatus : { type:String , enum : ["success","failed","pending"] , default:"pending"}
 
 })
 

@@ -57,7 +57,7 @@ export default function Cart() {
              )}
               
              
-  <div className="card shadow-sm p-4">
+  <div className="card shadow-sm p-4 mb-3">
     <h4 className="mb-3">Order Summary</h4>
     <div className="d-flex justify-content-between">
       <span>Total Items:</span>

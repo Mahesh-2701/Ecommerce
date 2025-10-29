@@ -18,6 +18,8 @@ import Adminorders from './pages/adminorders.jsx'
 import Profile from './pages/Profile.jsx'
 import Forgotpassword from './pages/Forgotpassword.jsx'
 import ResetPassword from './pages/ResetPassword.jsx'
+import PaymentSuccess from './pages/PaymentSuccess.jsx'
+import PaymentFailure from './pages/PaymentFailure.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -33,6 +35,8 @@ createRoot(document.getElementById('root')).render(
             <Route exact path="/profile" element={<Profile/>}></Route>
             <Route exact path="/order" element={<Orders/>}></Route>
            <Route exact path="/payment" element={<Payment/>}></Route>
+           <Route exact path="/success" element={<PaymentSuccess/>}></Route>
+           <Route exact path="/failure" element={<PaymentFailure/>}></Route>
         </Route>
         
         <Route element={<AdminProtectedroute/>}>

@@ -33,7 +33,7 @@ export default function Adminorders() {
     <div>
       <AdminNavbar />
 
-      <section className="container mt-5 pt-5">
+      <section className="container mt-5 pt-5 mb-3">
         <h2 className="mb-4">Orders</h2>
         <div className="card shadow-sm">
           <div className="card-body">
@@ -47,6 +47,7 @@ export default function Adminorders() {
                     <th>User Name</th>
                     <th>Product</th>
                     <th>Address</th>
+                    <th>Payment Status</th>
                     <th>Payment Method</th>
                     <th>Order Date</th>
                     <th>Order Status</th>

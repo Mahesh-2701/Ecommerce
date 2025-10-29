@@ -2,6 +2,8 @@ import axios from 'axios'
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { ToastContainer,toast } from 'react-toastify'
+import Footer from "../components/footer"
+import Navbar from "../components/navbar"
 
 export default function Signin() {
 
@@ -109,7 +111,9 @@ export default function Signin() {
     }
   return (
    <>
-      <section className="container-fluid bg-light min-vh-100 d-flex justify-content-center align-items-center">
+
+   <Navbar/>
+      <section className="container-fluid bg-light my-5 pt-5 d-flex justify-content-center align-items-center">
         <div className="card shadow-sm p-4" style={{ maxWidth: "400px", width: "90%" }}>
           <h2 className="text-center mb-3">Signin</h2>
           <hr className="mb-4" />
@@ -195,6 +199,8 @@ export default function Signin() {
           transform: scale(1.05);
         }
       `}</style>
+
+      <Footer/>
     </>
   )
 }

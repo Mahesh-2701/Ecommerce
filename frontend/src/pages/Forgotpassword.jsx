@@ -3,6 +3,8 @@ import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import Footer from "../components/footer"
+import Navbar from "../components/navbar"
 
 export default function Forgotpassword() {
   const [admin, setAdmin] = useState("");
@@ -34,7 +36,8 @@ export default function Forgotpassword() {
 
   return (
     <>
-      <section className="container-fluid bg-light min-vh-100 d-flex justify-content-center align-items-center">
+     <Navbar/>
+      <section className="container-fluid bg-light my-5 pt-5 d-flex justify-content-center align-items-center">
         <div
           className="card shadow-sm p-4"
           style={{ maxWidth: "400px", width: "90%" }}
@@ -87,6 +90,7 @@ export default function Forgotpassword() {
           transform: scale(1.05);
         }
       `}</style>
+      <Footer/>
     </>
   );
 }

@@ -43,7 +43,7 @@ export default function Products() {
         <div className="search-wrapper">
           <input
             className="form-control search-bar"
-            placeholder="🔍 Search for a product..."
+            placeholder=" Search for a product ..."
             onChange={(e) => setFilter(e.target.value)}
           />
         </div>

@@ -110,7 +110,7 @@ if (!regex.address.test(formData.address)) errors.address = "Invalid Address";
   return (
     <>
       <Navbar />
-      <div className="container mt-5 pt-5 d-flex justify-content-center">
+      <div className="container mt-5 pt-5 d-flex justify-content-center mb-3">
         <div
           className="card shadow-lg border-0 rounded-4 p-4"
           style={{ maxWidth: "500px", width: "100%" }}

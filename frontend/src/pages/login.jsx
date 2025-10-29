@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import { Link, useNavigate } from "react-router-dom";
+import Footer from "../components/footer"
+import Navbar from "../components/navbar"
 
 export default function Login() {
   const navigate = useNavigate();
@@ -50,7 +52,9 @@ export default function Login() {
 
   return (
     <>
-      <section className="container-fluid bg-light min-vh-100 d-flex justify-content-center align-items-center">
+    
+    <Navbar/>
+      <section className="container-fluid bg-light my-5 pt-5 d-flex justify-content-center align-items-center">
         <div className="card shadow-sm p-4" style={{ maxWidth: "400px", width: "90%" }}>
           <h2 className="text-center mb-3">Login</h2>
           <hr className="mb-4" />
@@ -83,7 +87,7 @@ export default function Login() {
           </form>
         </div>
       </section>
-      <ToastContainer />
+      <ToastContainer  style={{ top: "100px" }}/>
 
       <style jsx>{`
         .input-animated {
@@ -105,6 +109,8 @@ export default function Login() {
           transform: scale(1.05);
         }
       `}</style>
+
+    <Footer/>
     </>
   );
 }

@@ -51,6 +51,7 @@ export default function AdminOrderCard({ order, index }) {
       </td>
 
       <td>{order.address}</td>
+      <td>{order.paymentStatus}</td>
       <td>{order.paymentmethod}</td>
       <td>{new Date(order.orderedAt).toLocaleDateString()}</td>
 

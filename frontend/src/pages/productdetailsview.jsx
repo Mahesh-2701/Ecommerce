@@ -17,9 +17,14 @@ export default function ProductDetailsView() {
   useEffect(() => {
     if (location.state?.product) {
       fetchProduct(location.state.product);
-      fetchproducts();
     }
   }, [location.state]);
+
+  useEffect(() => {
+    if (product) {
+      fetchproducts();
+    }
+  }, [product]);
 
   const fetchProduct = async (id) => {
     try {
@@ -58,7 +63,18 @@ export default function ProductDetailsView() {
           Authorization: "Bearer " + localStorage.getItem("token"),
         },
       });
-      setProducts(res.data.data || []);
+      const allProducts = res.data.data || [];
+
+      // filter related ones by name similarity (excluding the current product)
+      const related = allProducts.filter(
+        (item) =>
+          item._id !== product._id &&
+          item.product
+            .toLowerCase()
+            .includes(product.product.split(" ")[0].toLowerCase())
+      );
+
+      setProducts(related.length ? related : allProducts.slice(0, 3)); // fallback
     } catch (err) {
       toast.error("Failed to fetch Products");
     }
@@ -91,7 +107,7 @@ export default function ProductDetailsView() {
             </h3>
             <p className="text-secondary">{product.description}</p>
             <button className="btn add-cart-btn mt-3" onClick={addToCart}>
-               Add to Cart
+              Add to Cart
             </button>
           </div>
         </div>
@@ -138,9 +154,8 @@ export default function ProductDetailsView() {
       <ToastContainer style={{ top: "100px" }}></ToastContainer>
       <Footer />
 
-      <style>
-        {`
-
+<style>
+  {`
 .fade-in {
   animation: fadeIn 1.2s ease forwards;
 }
@@ -156,20 +171,37 @@ export default function ProductDetailsView() {
   to { opacity: 1; transform: translateY(0); }
 }
 
-
+/* Product Image Styling */
 .product-image-container {
   position: relative;
   overflow: hidden;
   border-radius: 20px;
 }
+
 .product-image {
-  transition: all 0.5s ease;
+  width: 100%;
+  height: 400px;
+  object-fit: cover;
   border-radius: 20px;
+  transition: all 0.5s ease;
 }
+
 .product-image:hover {
   transform: scale(1.05);
 }
 
+/* Adjust heights for different screen sizes */
+@media (max-width: 992px) {
+  .product-image {
+    height: 320px;
+  }
+}
+
+@media (max-width: 576px) {
+  .product-image {
+    height: 240px;
+  }
+}
 
 .product-title {
   font-size: 2rem;
@@ -181,7 +213,6 @@ export default function ProductDetailsView() {
   font-size: 1.8rem;
   color: #00c853 !important;
 }
-
 
 .add-cart-btn {
   background: linear-gradient(90deg, #ff6f00, #ff9800);
@@ -197,7 +228,6 @@ export default function ProductDetailsView() {
   transform: translateY(-3px);
   box-shadow: 0 0 18px rgba(255, 152, 0, 0.6);
 }
-
 
 .related-title {
   position: relative;
@@ -226,6 +256,8 @@ export default function ProductDetailsView() {
 }
 
 .related-img {
+  width: 100%;
+  height: 200px;
   border-radius: 15px 15px 0 0;
   object-fit: cover;
   transition: transform 0.5s ease;
@@ -233,7 +265,6 @@ export default function ProductDetailsView() {
 .related-card:hover .related-img {
   transform: scale(1.05);
 }
-
 
 .view-btn {
   background: linear-gradient(90deg, #0d6efd, #6610f2);
@@ -248,7 +279,6 @@ export default function ProductDetailsView() {
   box-shadow: 0 0 15px rgba(13, 110, 253, 0.4);
 }
 
-
 @media (max-width: 768px) {
   .product-title {
     font-size: 1.6rem;
@@ -257,8 +287,9 @@ export default function ProductDetailsView() {
     font-size: 1.5rem;
   }
 }
-        `}
-      </style>
+  `}
+</style>
+
     </>
   );
 }
