@@ -10,14 +10,43 @@ const transport = nodemailer.createTransport({
   },
 });
 
-exports.sendmail =async function (email, resetLink) {
- await transport.sendMail({
+exports.sendEmailverifymail = async (email, verifyLink) => {
+  const mailOptions = {
     from: process.env.MAIL,
     to: email,
-    subject: "Password Reset",
-    text: `Reset your password using the following link: ${resetLink}`,
-  });
+    subject: "Please Verify Your Email Address",
+    html: `
+      <p>Dear User,</p>
+      <p>Thank you for registering with us. To complete your signup, please verify your email address by clicking the link below:</p>
+      <p><a href="${verifyLink}" target="_blank">Verify Email Address</a></p>
+      <p>If you did not initiate this request, please ignore this email.</p>
+      <br/>
+      <p>Best regards,<br/>Your Company Name Team</p>
+    `
+  };
+
+  await transport.sendMail(mailOptions);
 };
+
+
+exports.sendmail = async function (email, resetLink) {
+  const mailOptions = {
+    from: process.env.MAIL,
+    to: email,
+    subject: "Password Reset Request",
+    html: `
+      <p>Dear User,</p>
+      <p>We received a request to reset your password. Please click the link below to set a new password:</p>
+      <p><a href="${resetLink}" target="_blank">Reset Password</a></p>
+      <p>If you did not request a password reset, please ignore this email or contact support.</p>
+      <br/>
+      <p>Best regards,<br/>Your Company Name Team</p>
+    `
+  };
+
+  await transport.sendMail(mailOptions);
+};
+
 
 exports.sendProductConfirmationMail = async function (email, order) {
   // order structure:

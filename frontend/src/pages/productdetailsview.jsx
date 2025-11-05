@@ -5,12 +5,14 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Footer from "../components/footer";
 import Navbar from "../components/navbar";
+import Loading from "../components/Loading";
 
 export default function ProductDetailsView() {
   const location = useLocation();
   const navigate = useNavigate();
   const [product, setProduct] = useState(null);
   const [products, setProducts] = useState([]);
+
 
   const isAuth = localStorage.getItem("token") && localStorage.getItem("role");
 
@@ -28,6 +30,7 @@ export default function ProductDetailsView() {
 
   const fetchProduct = async (id) => {
     try {
+
       const res = await axios.get(
         `${import.meta.env.VITE_APP_API}/employee/${id}`,
         {
@@ -40,6 +43,7 @@ export default function ProductDetailsView() {
     } catch (error) {
       toast.error("Failed to load product details");
     }
+
   };
 
   const addToCart = () => {
@@ -58,6 +62,7 @@ export default function ProductDetailsView() {
 
   const fetchproducts = async () => {
     try {
+ 
       const res = await axios.get(import.meta.env.VITE_APP_API + "/employees", {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("token"),
@@ -78,9 +83,15 @@ export default function ProductDetailsView() {
     } catch (err) {
       toast.error("Failed to fetch Products");
     }
+
   };
 
-  if (!product) return <div className="text-center p-5">Loading...</div>;
+  if (!product) return <>
+     <Navbar/>
+        <Loading/>
+     <Footer/>
+    </>
+
 
   return (
     <>
@@ -130,7 +141,7 @@ export default function ProductDetailsView() {
                   <div class="card-body text-center">
                     <h5 class="card-title fw-semibold">{val.product}</h5>
                     <p class="card-text text-muted small">
-                      {val.description.slice(0, 50) + "..."}
+                      {val.description.slice(0, 40)+"..."}
                     </p>
                     <button
                       type="button"

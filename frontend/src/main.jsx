@@ -20,9 +20,12 @@ import Forgotpassword from './pages/Forgotpassword.jsx'
 import ResetPassword from './pages/ResetPassword.jsx'
 import PaymentSuccess from './pages/PaymentSuccess.jsx'
 import PaymentFailure from './pages/PaymentFailure.jsx'
+import Verifyemail from './pages/verifyemail.jsx'
+import { GoogleOAuthProvider } from "@react-oauth/google"
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
+    <GoogleOAuthProvider clientId={import.meta.env.VITE_APP_CLIENT_ID}>
     <Router>
       <Routes>
         
@@ -50,9 +53,11 @@ createRoot(document.getElementById('root')).render(
         <Route exact path="/logout" element={<Logout/>}></Route>
          <Route exact path="/forgotpassword" element={<Forgotpassword/>}></Route>
           <Route exact path="/resetlink/:token" element={<ResetPassword/>}></Route>
+        <Route exact path="/verify/token" element={<Verifyemail/>}></Route>
 
 
       </Routes>
     </Router>
+    </GoogleOAuthProvider>
   </StrictMode>,
 )

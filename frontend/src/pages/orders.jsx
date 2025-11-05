@@ -3,11 +3,14 @@ import Navbar from "../components/navbar";
 import Footer from "../components/footer";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
+import Loading from "../components/Loading";
 
 export default function Orders() {
   const [orders, setOrders] = useState([]);
+  const [loading,setLoading] = useState(false)
 
   const fetchOrders = () => {
+    setLoading(true)
     axios
       .get(import.meta.env.VITE_APP_API + "/order/" + localStorage.getItem("id"), {
         headers: { Authorization: "Bearer " + localStorage.getItem("token") },
@@ -20,12 +23,23 @@ export default function Orders() {
       .catch((err) => {
         console.error(err);
         toast.error(err.response?.data?.message || "Something went wrong");
-      });
+      })
+      .finally(()=>{
+        setLoading(false)
+      })
   };
 
   useEffect(() => {
     fetchOrders();
   }, []);
+
+   if (loading) return(
+    <>
+     <Navbar/>
+        <Loading/>
+     <Footer/>
+    </>
+  ) ;
 
   return (
     <div>
@@ -35,7 +49,7 @@ export default function Orders() {
         <h2 className="mb-4">Your Orders</h2>
 
         {orders.length === 0 ? (
-          <div className="alert alert-info text-center">
+          <div className="alert text-center">
             You have no orders yet.
           </div>
         ) : (
@@ -75,6 +89,9 @@ export default function Orders() {
                   <div className="col-md-6 text-md-end">
                     <p className="mb-1">
                       <strong>Payment:</strong> {order.paymentmethod}
+                    </p>
+                    <p className="mb-1">
+                      <strong>Payment Status:</strong> {order.paymentStatus == "success"?(<strong className="text-success">Paid</strong>):(<strong className="text-danger">Unpaid</strong>)}
                     </p>
                     <p className="mb-1">
                       <strong>Total:</strong> ₹{order.totalprice}

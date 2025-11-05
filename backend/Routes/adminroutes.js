@@ -26,7 +26,7 @@ router.post(
 router.delete("/employee/:id", checktoken, deleteemployee);
 router.get("/employee/:id", getemployee);
 router.get("/employees", dispemployee);
-router.put("/updateproduct/:id",checktoken, uploads.single("image"),validateemployee,updateproduct)
+router.put("/updateproduct/:id",checktoken, uploads.single("image") ,validateemployee,updateproduct)
 router.get("/adminorders",checktoken,getorders)
 router.patch("/updatestatus/:id",checktoken,updatestatus)
 

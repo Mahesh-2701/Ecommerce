@@ -6,10 +6,13 @@ import { ToastContainer, toast } from "react-toastify";
 import Modal from "../components/modal";
 import { useNavigate } from "react-router-dom";
 import { loadStripe } from "@stripe/stripe-js";
+import Loading from "../components/Loading";
 
 export default function Payment() {
   const navigate = useNavigate();
   const [cartItems, setCartItems] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [ordered, setordered] = useState(false);
 
   useEffect(() => {
     const storedCart = JSON.parse(localStorage.getItem("cart")) || [];
@@ -73,31 +76,46 @@ export default function Payment() {
 
       let cartitemsdetails = cartItems.map((item) => ({
         productid: item._id,
-        name:item.product,
-        image:item.image,
+        name: item.product,
+        image: item.image,
         quantity: item.quantity,
         price: item.price,
       }));
 
       let orderdetails = { products: cartitemsdetails, ...paymentdetail };
 
-      axios
-        .post(
-          import.meta.env.VITE_APP_API + "/order/" + localStorage.getItem("id"),
+      try {
+        setLoading(true);
+
+        const res = await axios.post(
+          `${import.meta.env.VITE_APP_API}/order/${localStorage.getItem("id")}`,
           orderdetails,
           {
             headers: {
-              Authorization: "Bearer " + localStorage.getItem("token"),
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
             },
           }
-        )
-        .then((res) => {
-          if (res.data.status === 200 && res.data.url) {
-            localStorage.removeItem("cart");
-            window.location.href = res.data.url;
-          }
-        })
-        .catch((err) => toast.error(err.response.data.message));
+        );
+
+        console.log("Backend Response:", res.data);
+
+        if (res.status === 200 && res.data.url) {
+          localStorage.removeItem("cart");
+          window.location.href = res.data.url;
+        } else if (res.status === 200 && res.data.message) {
+          localStorage.removeItem("cart");
+          setordered(true);
+        } else {
+          toast.error("Unexpected response from server");
+        }
+      } catch (err) {
+        console.error(err);
+        toast.error(
+          err.response?.data?.message || "Order failed. Try again later."
+        );
+      } finally {
+        setLoading(false);
+      }
     } catch (err) {
       console.log(err.message);
       toast.error("Error Occured ! TRY AGAIN LATER");
@@ -109,10 +127,18 @@ export default function Payment() {
     0
   );
 
-  const [ordered, setordered] = useState(false);
 
   const openmodal = () => setordered(true);
   const hidemodal = () => setordered(false);
+
+  if (loading)
+    return (
+      <>
+        <Navbar />
+        <Loading />
+        <Footer />
+      </>
+    );
 
   return (
     <div>
@@ -164,7 +190,7 @@ export default function Payment() {
           </div>
 
           <div className="col-md-5">
-            <div className="card p-4 shadow-sm m-2">
+            <div className="card p-4 shadow-sm mb-2">
               <h4>Payment Address</h4>
               <div className="d-flex flex-column gap-3 mt-3">
                 <input
@@ -202,10 +228,10 @@ export default function Payment() {
               </div>
             </div>
 
-            <div className="card p-4 shadow-sm">
+            <div className="card p-4 my-3 shadow-sm">
               <h4>Choose Payment Method</h4>
               <div className="d-grid gap-3 mt-3">
-                <div className="form-check">
+                {/* <div className="form-check">
                   <input
                     className="form-check-input"
                     type="radio"
@@ -217,7 +243,7 @@ export default function Payment() {
                   <label className="form-check-label" htmlFor="upi">
                     UPI
                   </label>
-                </div>
+                </div> */}
                 <div className="form-check">
                   <input
                     className="form-check-input"
@@ -231,7 +257,7 @@ export default function Payment() {
                     Debit / Credit Card
                   </label>
                 </div>
-                {/* <div className="form-check">
+                <div className="form-check">
                   <input
                     className="form-check-input"
                     type="radio"
@@ -243,7 +269,7 @@ export default function Payment() {
                   <label className="form-check-label" htmlFor="cod">
                     Cash on Delivery
                   </label>
-                </div> */}
+                </div>
                 {error.paymentmethod && (
                   <p className="text-danger">{error.paymentmethod}</p>
                 )}

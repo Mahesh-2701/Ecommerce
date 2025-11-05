@@ -1,14 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
+import styled from "styled-components";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
-import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
-import Footer from "../components/footer"
-import Navbar from "../components/navbar"
+import { Link } from "react-router-dom";
+import Footer from "../components/footer";
+import Navbar from "../components/navbar";
+import "react-toastify/dist/ReactToastify.css";
+import { Loader } from "lucide-react";
 
 export default function Forgotpassword() {
+  const [ loading,setLoading] = useState(false)
   const [admin, setAdmin] = useState("");
-
   const [waitmsg, setWaitmsg] = useState(false);
 
   function adminset(eve) {
@@ -17,7 +19,7 @@ export default function Forgotpassword() {
 
   function login(eve) {
     eve.preventDefault();
-
+    setLoading(true)
     setWaitmsg(true);
 
     axios
@@ -29,68 +31,140 @@ export default function Forgotpassword() {
         }
       })
       .catch((err) => {
-        toast.error(err.response.data.message);
-      });
+        toast.error(err.response?.data?.message || "Something went wrong");
+      })
+      .finally(()=>{
+        setLoading(false)
+      })
+
     setAdmin("");
   }
 
   return (
     <>
-     <Navbar/>
-      <section className="container-fluid bg-light my-5 pt-5 d-flex justify-content-center align-items-center">
-        <div
-          className="card shadow-sm p-4"
-          style={{ maxWidth: "400px", width: "90%" }}
-        >
-          <h2 className="text-center mb-3">Enter Email</h2>
-          <hr className="mb-4" />
-          <form onSubmit={login} className="d-flex flex-column gap-3">
+      <Navbar />
+      <StyledWrapper>
+        <form className="form" onSubmit={login}>
+          <h2 className="text-center mb-3">Forgot Password</h2>
+
+          <div className="flex-column">
+            <label>Enter Email</label>
+          </div>
+          <div className="inputForm">
             <input
               type="email"
               name="email"
               onChange={adminset}
               value={admin}
-              className="form-control input-animated"
               placeholder="sample@gmail.com"
+              className="input"
               required
               autoComplete="username"
             />
-            {waitmsg && <p className="text-danger">Please Wait</p>}
-            <button
-              type="submit"
-              className="btn btn-primary btn-animated py-2 fw-semibold"
-            >
-              Submit
-            </button>
-            <Link to="/login" className="text-center text-decoration-none">
-              Back
+          </div>
+
+          {waitmsg && <p className="wait">Please Wait...</p>}
+
+          <button type="submit" className="button-submit" disabled={loading}>
+            { loading ? <Loader/> : "Submit"}
+          </button>
+
+          <p className="p">
+            <Link to="/login" className="span">
+              Back to Login
             </Link>
-          </form>
-        </div>
-      </section>
+          </p>
+        </form>
+      </StyledWrapper>
       <ToastContainer />
-
-      <style jsx>{`
-        .input-animated {
-          transition: border-color 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .input-animated:focus {
-          border-color: #0d6efd;
-          box-shadow: 0 0 8px rgba(13, 110, 253, 0.3);
-          outline: none;
-        }
-
-        .btn-animated {
-          transition: background-color 0.3s ease, transform 0.2s ease;
-        }
-
-        .btn-animated:hover {
-          background-color: #0b5ed7;
-          transform: scale(1.05);
-        }
-      `}</style>
-      <Footer/>
+      <Footer />
     </>
   );
 }
+
+const StyledWrapper = styled.div`
+  min-height: 100vh;
+  background-color: #f6f8fa;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 0;
+
+  .form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background-color: #ffffff;
+    padding: 30px;
+    width: 400px;
+    border-radius: 20px;
+    box-shadow: 0px 3px 15px rgba(0, 0, 0, 0.1);
+  }
+
+  .flex-column > label {
+    color: #151717;
+    font-weight: 600;
+  }
+
+  .inputForm {
+    border: 1.5px solid #ecedec;
+    border-radius: 10px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+    transition: 0.2s ease-in-out;
+  }
+
+  .input {
+    border: none;
+    outline: none;
+    width: 100%;
+    font-size: 15px;
+  }
+
+  .inputForm:focus-within {
+    border-color: #2d79f3;
+  }
+
+  .wait {
+    color: #dc3545;
+    font-size: 14px;
+    margin-top: -5px;
+  }
+
+  .button-submit {
+    margin-top: 10px;
+    background-color: #151717;
+    border: none;
+    color: white;
+    font-size: 16px;
+    font-weight: 500;
+    border-radius: 10px;
+    height: 50px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+  }
+
+  .button-submit:hover {
+    background-color: #2d79f3;
+  }
+
+  .p {
+    text-align: center;
+    color: #000;
+    font-size: 14px;
+    margin-top: 10px;
+  }
+
+  .span {
+    color: #2d79f3;
+    font-weight: 500;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  .span:hover {
+    text-decoration: underline;
+  }
+`;

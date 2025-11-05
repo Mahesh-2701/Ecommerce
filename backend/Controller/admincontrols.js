@@ -3,6 +3,8 @@ const productModel = require("../Models/employees");
 const usermodel = require("../Models/users");
 const orderModel = require("../Models/orders");
 const { providetoken } = require("../Middlewares/jwt");
+const { sendEmailverifymail } = require("../Middlewares/nodemailer")
+const { emailverificationtoken } = require("../Middlewares/jwt")
 require("dotenv").config;
 const fs = require("fs");
 const path = require("path");
@@ -18,8 +20,6 @@ exports.login = async function (req, res) {
       result = await usermodel.findOne({ email: adminemail });
     }
     
-
-
     if (!result) {
       return res.status(400).json({ success: false, message: "Invalid Email Credentials" });
     }
@@ -28,6 +28,18 @@ exports.login = async function (req, res) {
 
       let passcheck = await result.comparepassword(password)
       if (passcheck) {
+
+        if(result.isVerified === "unverified" ){
+             
+           const verifytoken =  emailverificationtoken(result.email,process.env.SECRET_TOKEN)
+          
+              const verifylink = `${process.env.APP_URL}verify/token?token=${verifytoken}`
+          
+              await sendEmailverifymail(result.email,verifylink)
+
+          return res.status(400).json({ success : false ,status :400 ,message: "Your email is not verified. A new verification link has been sent to your email."})
+        }
+
         const token = providetoken({ ...result }, process.env.SECRET_TOKEN, {
           expiresIn: "6h",
         });

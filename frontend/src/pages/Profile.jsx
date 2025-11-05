@@ -5,9 +5,11 @@ import { useEffect } from "react";
 import axios from "axios";
 import Modal from "../components/modal";
 import {toast,ToastContainer} from "react-toastify"
+import Loading from "../components/Loading";
 
 export default function Profile() {
   const [user, setUser] = useState({});
+  const [ loading,setLoading] = useState(false)
 
   const [modal, setModal] = useState(false);
 
@@ -33,6 +35,7 @@ export default function Profile() {
   const closemodal = () => setModal(false);
 
   const fetchuser = () => {
+    setLoading(true)
     axios
       .get(import.meta.env.VITE_APP_API + "/userdetail", {
         headers: { Authorization: "Bearer " + localStorage.getItem("token") },
@@ -45,7 +48,10 @@ export default function Profile() {
       .catch((err) => {
         console.error(err);
         toast.error(err.response?.data?.message || "Something went wrong");
-      });
+      })
+      .finally(()=>{
+        setLoading(false)
+      })
   };
 
   useEffect(() => {
@@ -106,6 +112,14 @@ if (!regex.address.test(formData.address)) errors.address = "Invalid Address";
 
 
   };
+
+   if (loading) return(
+    <>
+     <Navbar/>
+        <Loading/>
+     <Footer/>
+    </>
+  ) ;
 
   return (
     <>

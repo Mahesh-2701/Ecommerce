@@ -28,4 +28,8 @@ exports.passresettoken =  (email,secretkey) => {
   
   return jwt.sign({email:email},secretkey,{ expiresIn : "15m"})
 }
+
+exports.emailverificationtoken = (email,secretkey)=>{
+  return jwt.sign({ email:email},secretkey,{ expiresIn :"1h"})
+}
   

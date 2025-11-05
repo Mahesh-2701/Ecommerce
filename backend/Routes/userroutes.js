@@ -1,11 +1,13 @@
 const express = require("express")
 const {validateusers , validateOrders ,validateuserupdate} = require("../Middlewares/joi")
-const {adduser,addorder ,getorders ,getuserdetail ,updateuserdetail , changepassword ,resetpass , updatePaymentStatus ,retrieveSession ,updateSession } = require("../Controller/usercontroller")
+const {adduser,addgoogleuser ,verifyemail ,addorder ,getorders ,getuserdetail ,updateuserdetail , changepassword ,resetpass , updatePaymentStatus ,retrieveSession ,updateSession } = require("../Controller/usercontroller")
 const {checktoken} = require("../Middlewares/jwt")
 
 const userrouter = express.Router()
 
 userrouter.post("/signin",validateusers,adduser)
+userrouter.post("/googleauth",addgoogleuser)
+userrouter.post("/verifyemail",verifyemail)
 userrouter.post("/forgotpassword",changepassword)
 userrouter.post("/resetpassword",resetpass)
 userrouter.post("/order/:id",checktoken,validateOrders,addorder)

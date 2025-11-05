@@ -6,6 +6,7 @@ import AdminNavbar from "../components/adminnavbar";
 import Footer from "../components/footer";
 import Modal from "../components/modal";
 import { useNavigate } from "react-router-dom";
+import Loading from "../components/Loading";
 
 export default function AdminDashboard() {
   const [employee, setEmployee] = useState({
@@ -14,6 +15,8 @@ export default function AdminDashboard() {
     price: 0,
     description: "",
   });
+
+  const [ loadingProducts ,setLoadingProducts] = useState(false)
 
   const [error, setError] = useState({
     product: "",
@@ -40,6 +43,7 @@ export default function AdminDashboard() {
 
   const fetchEmployees = async () => {
     try {
+      setLoadingProducts(true)
       const res = await axios.get(import.meta.env.VITE_APP_API + "/employees", {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("token"),
@@ -48,6 +52,9 @@ export default function AdminDashboard() {
       setEmployeesList(res.data.data || []);
     } catch (err) {
       toast.error("Failed to fetch employees");
+    }
+    finally{
+     setLoadingProducts(false)
     }
   };
 
@@ -256,8 +263,10 @@ export default function AdminDashboard() {
               </form>
             </div>
           </div>
-
-          <div className="card shadow-sm">
+         { loadingProducts ? (
+             <Loading/>
+         ) : (
+                     <div className="card shadow-sm">
             <div className="card-body">
               <h3 className="card-title mb-4 text-center">Product List</h3>
 
@@ -363,6 +372,8 @@ export default function AdminDashboard() {
               </div>
             </div>
           </div>
+         )}
+
 
           
 
@@ -434,6 +445,7 @@ export default function AdminDashboard() {
             background-color: #f8f9fa;
             cursor: pointer;
           }
+
 
           button.btn-link:hover {
             color: #dc3545;

@@ -4,12 +4,15 @@ import Footer from "../components/footer";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import AdminorderCard from "../components/adminorderCard";
+import Loading from "../components/Loading";
 
 export default function Adminorders() {
 
   const [orders, setOrders] = useState([]);
+  const [ loading,setLoading] = useState(false)
 
   const fetchOrders = function () {
+    setLoading(true)
     axios
       .get(import.meta.env.VITE_APP_API + "/adminorders", {
         headers: { Authorization: "Bearer " + localStorage.getItem("token") },
@@ -21,13 +24,22 @@ export default function Adminorders() {
       })
       .catch((err) => {
         toast.error(err.response.data.message);
-      });
+      })
+      .finally(()=>{
+        setLoading(false)
+      })
+      
   };
 
   useEffect(() => {
     fetchOrders();
   }, []);
 
+  if (loading) return <>
+     <AdminNavbar />
+        <Loading/>
+     <Footer/>
+    </>
 
   return (
     <div>

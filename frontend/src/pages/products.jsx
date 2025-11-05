@@ -4,11 +4,13 @@ import Footer from "../components/footer";
 import { toast, ToastContainer } from "react-toastify";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import Loading from "../components/Loading";
 
 export default function Products() {
   const navigate = useNavigate();
   const [products, setProducts] = useState([]);
   const [filter, setFilter] = useState("");
+  const [loading,setLoading] = useState(false)
 
   const filteredProducts = products.filter((item) =>
     item.product.toLowerCase().includes(filter.toLowerCase())
@@ -16,6 +18,7 @@ export default function Products() {
 
   const fetchProducts = async () => {
     try {
+      setLoading(true)
       const res = await axios.get(import.meta.env.VITE_APP_API + "/employees", {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("token"),
@@ -25,11 +28,22 @@ export default function Products() {
     } catch (err) {
       toast.error("Failed to fetch Products");
     }
+    finally{
+      setLoading(false)
+    }
   };
 
   useEffect(() => {
     fetchProducts();
   }, []);
+
+  if (loading) return(
+    <>
+     <Navbar/>
+        <Loading/>
+     <Footer/>
+    </>
+  ) ;
 
   return (
     <div>
@@ -92,7 +106,7 @@ export default function Products() {
                     </div>
                   ))
                 ) : (
-                  <div className="text-center text-muted py-5">
+                  <div className="text-center mx-auto text-muted py-5">
                     <h5>No products found</h5>
                   </div>
                 )}

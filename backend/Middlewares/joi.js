@@ -1,4 +1,6 @@
 const joi = require("joi")
+const fs = require("fs")
+const path = require("path")
 
 const loginschema = joi.object({
     email : joi.string().required(),
@@ -52,6 +54,16 @@ exports.validateemployee = function(req,res,next){
     const {error} = productschema.validate(req.body)
 
     if(error){
+
+        if(req.file){
+
+          const delfile = path.join(__dirname,"../uploads",req.file.filename)
+
+          if(fs.existsSync(delfile)){
+            fs.unlinkSync(delfile)
+          }
+
+        }
         return res.status(400).json({success:false ,message: error.details[0].message})
     }
     next()
@@ -72,6 +84,7 @@ exports.validateuserupdate = function(req,res,next){
     const {error} = userupdateschema.validate(req.body)
 
     if(error){
+       
         return res.status(400).json({success:false ,message: error.details[0].message})
     }
     next()
